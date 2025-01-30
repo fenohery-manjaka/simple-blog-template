@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Laravel</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/@splidejs/splide@4.1.4/dist/css/splide.min.css">
+    <!-- Styles / Scripts -->
+    @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @else
+    @endif
+</head>
+
+<body class="bg-gradient-to-br from-gray-50 to-gray-100 font-['Inter']">
+    <!-- Navigation Avancée -->
+    <nav class="fixed w-full bg-white/80 backdrop-blur-md shadow-sm z-50">
+        <div class="max-w-8xl mx-auto px-6">
+            <div class="relative flex items-center justify-between h-20">
+                <!-- Logo Animé -->
+                <div class="flex items-center space-x-2">
+                    <div class="w-8 h-8 bg-indigo-600 rounded-full animate-pulse"></div>
+                    <span
+                        class="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">TechSphere</span>
+                </div>
+
+                <!-- Menu Desktop avec Dropdown -->
+                <div class="hidden lg:flex items-center space-x-8">                   
+                    <a href="{{ route('home') }}"
+                        class="px-4 py-2 transition-all 
+                        {{ request()->is('/') ? 'text-indigo-600 font-semibold border-b-2 border-indigo-600' : 'text-gray-700 hover:text-indigo-600' }}">
+                        Accueil
+                    </a>
+                    <a href="{{ route('posts.index') }}"
+                        class="px-4 py-2 transition-all 
+                        {{ request()->is('posts*') ? 'text-indigo-600 font-semibold border-b-2 border-indigo-600' : 'text-gray-700 hover:text-indigo-600' }}">
+                        Articles
+                    </a>
+                   
+
+                </div>
+
+                <!-- CTA et Menu Mobile -->
+                <div class="flex items-center space-x-4">
+                    <button
+                        class="hidden lg:inline-flex items-center px-6 py-2.5 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition-all">
+                        S'abonner
+                    </button>
+                    <button id="mobileMenuButton" class="lg:hidden p-3 rounded-xl hover:bg-gray-100">
+                        <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu (Off-canvas) -->
+    <div id="mobileMenu" class="fixed inset-0 z-50 hidden">
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="toggleMenu()"></div>
+        <div class="relative h-full w-80 bg-white transform transition-transform duration-300 -translate-x-full">
+            <div class="p-6 border-b border-gray-100">
+                <span class="text-2xl font-bold text-indigo-600">TechSphere</span>
+            </div>
+            <nav class="p-6 space-y-4">
+                <a href="#" class="block p-3 text-gray-700 hover:bg-gray-50 rounded-lg">Accueil</a>
+                <a href="#" class="block p-3 text-gray-700 hover:bg-gray-50 rounded-lg">Catégories</a>
+                <a href="#" class="block p-3 text-gray-700 hover:bg-gray-50 rounded-lg">Articles</a>
+                <a href="#" class="block p-3 text-gray-700 hover:bg-gray-50 rounded-lg">Contact</a>
+            </nav>
+        </div>
+    </div>
+
+
+
+
+    <footer class="bg-gray-900 text-white text-center p-8 mt-10">
+        <div class="mb-4">
+            <h3 class="text-xl font-bold">Suivez-nous</h3>
+            <p class="text-gray-400">Restez informé des dernières mises à jour</p>
+            <div class="flex justify-center space-x-4 mt-4">
+                <a href="#" class="text-blue-400 hover:text-blue-600"><i class="fab fa-facebook text-2xl"></i></a>
+                <a href="#" class="text-blue-400 hover:text-blue-600"><i class="fab fa-twitter text-2xl"></i></a>
+                <a href="#" class="text-blue-400 hover:text-blue-600"><i class="fab fa-linkedin text-2xl"></i></a>
+            </div>
+        </div>
+        <p>&copy; 2025 Mon Blog. Tous droits réservés.</p>
+    </footer>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+    <!-- Features Avancées -->
+    <script>
+        // Gestion du menu mobile
+        const mobileMenu = document.getElementById('mobileMenu');
+        let menuOpen = false;
+
+        function toggleMenu() {
+            menuOpen = !menuOpen;
+            mobileMenu.classList.toggle('hidden');
+            const panel = mobileMenu.querySelector('div > div');
+            if (menuOpen) {
+                panel.classList.remove('-translate-x-full');
+                document.body.classList.add('overflow-hidden');
+            } else {
+                panel.classList.add('-translate-x-full');
+                document.body.classList.remove('overflow-hidden');
+            }
+        }
+
+        // Initialisation du slider
+        document.addEventListener('DOMContentLoaded', function() {
+            new Splide('.splide', {
+                type: 'loop',
+                perPage: 1,
+                autoplay: true,
+                interval: 5000,
+                pauseOnHover: false,
+                arrows: false,
+                pagination: false
+            }).mount();
+        });
+
+        // Animation au scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fade-in-up');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.animate-on-scroll').forEach(element => {
+            observer.observe(element);
+        });
+
+        // Dark Mode Toggle
+        const themeToggle = document.createElement('button');
+        themeToggle.className = 'fixed bottom-6 right-6 p-3 rounded-full bg-white shadow-xl';
+        themeToggle.innerHTML = '🌓';
+        document.body.appendChild(themeToggle);
+
+        themeToggle.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+        });
+
+        // Systeme de recherche
+        const searchDebounce = (func, delay) => {
+            let timeout;
+            return (...args) => {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(this, args), delay);
+            };
+        };
+
+        // Ajouter plus de fonctionnalités ici...
+    </script>
+
+    <style>
+        @keyframes fade-in-up {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in-up {
+            animation: fade-in-up 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+        }
+
+        .dark body {
+            background: #0f172a;
+            color: #f8fafc;
+        }
+    </style>
+</body>
+
+</html>
